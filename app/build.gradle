@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace 'kenali77.projects.hwchallenge'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "kenali77.projects.hwchallenge"
@@ -40,7 +40,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.1.1'
+        kotlinCompilerExtensionVersion '1.4.1'
     }
     packagingOptions {
         resources {
@@ -75,6 +75,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3"
+    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+
 
     // Room
     implementation "androidx.room:room-runtime:2.5.1"
@@ -100,6 +102,15 @@ dependencies {
 
     implementation "androidx.paging:paging-runtime:$paging_version"
     implementation "androidx.paging:paging-compose:3.2.0-beta01"
+
+    // Maps SDK Google
+    implementation 'com.google.maps.android:maps-compose:2.8.0'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.maps.android:places-ktx:2.0.0'
+
+    // Accompanist permissions
+    implementation "com.google.accompanist:accompanist-permissions:0.28.0"
+
 
 
 }
