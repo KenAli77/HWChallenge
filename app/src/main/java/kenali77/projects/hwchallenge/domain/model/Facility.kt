@@ -1,7 +1,7 @@
 package kenali77.projects.hwchallenge.domain.model
 
 data class Facility(
-    val name: String,
+    val facilities: List<FacilityX>,
     val id: String,
-    val facilities: List<Facility>
+    val name: String
 )

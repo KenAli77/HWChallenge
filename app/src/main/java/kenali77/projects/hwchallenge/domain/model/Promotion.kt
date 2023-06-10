@@ -1,9 +1,9 @@
 package kenali77.projects.hwchallenge.domain.model
 
 data class Promotion(
+    val discount: Int,
     val id: Int,
-    val type: String,
-    val stack: Boolean,
     val name: String,
-    val discount: Int
+    val stack: Boolean,
+    val type: String
 )
