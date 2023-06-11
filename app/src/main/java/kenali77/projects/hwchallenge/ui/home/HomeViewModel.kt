@@ -54,6 +54,16 @@ class HomeViewModel @Inject constructor(private val repo: MainRepositoryImpl) : 
         }
     }
 
+    fun getHeaderText(): String {
+        val content = listOf(
+            "Ready for another adventure? Obvs!",
+            "Been dreaming of anywhere lately?",
+            "Fancy a new adventure?",
+            "Let the adventures begin!"
+        )
+        return content.random()
+    }
+
     data class HomeState(
         val properties: Properties? = null,
         val error: String? = null,

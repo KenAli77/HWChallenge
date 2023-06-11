@@ -49,20 +49,13 @@ import kenali77.projects.hwchallenge.ui.theme.*
 import java.math.RoundingMode
 import kotlin.math.roundToInt
 
-fun getWelcomeText(): String {
-    val content = listOf(
-        "Ready for another adventure? Obvs!",
-        "Been dreaming of anywhere lately?",
-        "Fancy a new adventure?",
-        "Let the adventures begin!"
-    )
-    return content.random()
-}
+
 
 @Composable
 fun Toolbar(
     modifier: Modifier = Modifier,
-    lazyListState: LazyListState
+    lazyListState: LazyListState,
+    headerText:String
 ) {
     Surface(
         modifier = modifier
@@ -81,7 +74,7 @@ fun Toolbar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = getWelcomeText(),
+                text = headerText,
                 fontWeight = FontWeight.Bold,
                 fontSize = 25.sp,
                 modifier = Modifier.fillMaxWidth(0.66f)
