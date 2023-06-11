@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -12,9 +13,11 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.*
+import androidx.compose.foundation.shape.AbsoluteCutCornerShape
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -27,12 +30,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -41,6 +46,8 @@ import com.skydoves.landscapist.glide.GlideImage
 import kenali77.projects.hwchallenge.R
 import kenali77.projects.hwchallenge.domain.model.*
 import kenali77.projects.hwchallenge.ui.theme.*
+import java.math.RoundingMode
+import kotlin.math.roundToInt
 
 fun getWelcomeText(): String {
     val content = listOf(
@@ -153,7 +160,7 @@ fun PropertyItemView(property: Property) {
     ) {
         Box(Modifier.fillMaxSize()) {
             ConstraintLayout() {
-                val (imageGallery, name, rating, info, features, privatePriceBox, dormPriceBox) = createRefs()
+                val (imageGallery, name, rating, info, features, priceBox) = createRefs()
 
                 ListItemImageSlider(
                     images = property.imagesGallery,
@@ -206,7 +213,13 @@ fun PropertyItemView(property: Property) {
                         }
                         .padding(horizontal = 10.dp, vertical = 5.dp))
 
-//            PriceBox(property = property)
+                PriceBox(property = property, modifier = Modifier
+                    .fillMaxWidth(0.6f)
+                    .constrainAs(priceBox) {
+                        top.linkTo(features.bottom)
+                        end.linkTo(parent.end)
+                    }
+                    .padding(10.dp))
             }
             if (property.isFeatured) {
                 Surface(
@@ -225,11 +238,13 @@ fun PropertyItemView(property: Property) {
                             color = Color.White,
                             textAlign = TextAlign.Center,
                             fontSize = 14.sp,
-                            modifier = Modifier.alignByBaseline().padding(horizontal = 3.dp, vertical = 0.dp)
-                        ) 
+                            modifier = Modifier
+                                .alignByBaseline()
+                                .padding(horizontal = 3.dp, vertical = 0.dp)
+                        )
                         Spacer(modifier = Modifier.width(18.dp))
                     }
-                    
+
                 }
             }
         }
@@ -402,8 +417,135 @@ fun FacilitiesBar(facilities: List<FacilityX>, modifier: Modifier = Modifier) {
 @Composable
 fun PriceBox(property: Property, modifier: Modifier = Modifier) {
 
-    Surface(color = Magenta, shape = CutCornerShape(bottomStart = 30.dp)) {
-        Text(text = "ajoooo")
+    var isDormDiscounted by mutableStateOf(false)
+    var dormDiscountPercentage by mutableStateOf("")
+
+    if (property.lowestAverageDormPricePerNight != null) {
+        val price = property.lowestAverageDormPricePerNight
+        if (price.original != null) {
+            if (price.original > price.value) {
+                isDormDiscounted = true
+                dormDiscountPercentage = "${
+                    (((price.value.toFloat() / price.original.toFloat()) * 100) - 100).roundToInt()
+                }%"
+
+            }
+        }
+    }
+    var isPrivateDiscounted by mutableStateOf(false)
+    var privateDiscountPercentage by mutableStateOf("")
+    if (property.lowestAveragePrivatePricePerNight != null) {
+        val price = property.lowestAveragePrivatePricePerNight
+        if (price.original != null) {
+            if (price.original > price.value) {
+                isPrivateDiscounted = true
+                privateDiscountPercentage = "${
+                    (((price.value.toFloat() / price.original.toFloat()) * 100) - 100).roundToInt()
+                }%"
+            }
+        }
+    }
+    Surface(color = Color.Transparent, modifier = modifier) {
+        Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+            Column(modifier = Modifier.padding(5.dp), horizontalAlignment = Alignment.End) {
+                property.lowestAveragePrivatePricePerNight?.let { price ->
+
+                    if (isPrivateDiscounted) {
+                        Surface(
+                            shape = RectangleShape,
+                            color = Magenta
+                        ) {
+                            Row {
+
+                                Text(
+                                    text = privateDiscountPercentage,
+                                    color = Color.White,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 12.sp,
+                                    modifier = Modifier.padding(horizontal = 5.dp)
+                                )
+                            }
+                        }
+                    }
+
+                    Text(text = "Privates from", color = Grey, fontSize = 14.sp)
+                    Text(
+                        text = "€${price.getEurValue()}",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
+                    )
+                    price.original?.let { original ->
+                        if (original > price.getEurValue()) {
+                            Text(
+                                text = "€ ${original}",
+                                color = Grey,
+                                fontSize = 14.sp,
+                                textDecoration = TextDecoration.LineThrough
+                            )
+                        }
+                    }
+
+                }
+                if (property.lowestAveragePrivatePricePerNight == null) {
+                    Text(text = "No Private Availability", color = Grey, fontSize = 14.sp)
+
+                }
+
+
+            }
+            Divider(
+                color = Grey.copy(0.6f),
+                thickness = 1.dp,
+                modifier = Modifier
+                    .padding(horizontal = 5.dp)
+                    .height(60.dp)
+                    .width(1.dp)
+            )
+            Column(modifier = Modifier.padding(5.dp), horizontalAlignment = Alignment.End) {
+                property.lowestAverageDormPricePerNight?.let { price ->
+                    if (isDormDiscounted) {
+                        Surface(
+                            shape = RectangleShape,
+                            color = Magenta
+                        ) {
+                            Row() {
+                                Text(
+                                    text = dormDiscountPercentage,
+                                    color = Color.White,
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier.padding(horizontal = 5.dp)
+                                )
+                            }
+                        }
+                    }
+                    Text(text = "Dorms from", color = Grey, fontSize = 14.sp)
+                    Text(
+                        text = "€${price.getEurValue()}",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
+                    )
+
+                    price.original?.let { original ->
+                        if (original > price.getEurValue()) {
+                            Text(
+                                text = "€${original}",
+                                color = Grey,
+                                fontSize = 14.sp,
+                                textDecoration = TextDecoration.LineThrough
+                            )
+                        }
+                    }
+
+                }
+                if (property.lowestAverageDormPricePerNight == null) {
+                    Text(text = "No Dorm Availability", color = Grey, fontSize = 14.sp)
+                }
+
+
+            }
+
+        }
     }
 
 }
