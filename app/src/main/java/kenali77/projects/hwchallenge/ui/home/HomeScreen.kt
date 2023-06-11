@@ -42,7 +42,6 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
                 Toolbar(
                     modifier = Modifier.padding(20.dp),
                     lazyListState = lazyListState,
-                    headerText = viewModel.getHeaderText()
                 )
             }
 

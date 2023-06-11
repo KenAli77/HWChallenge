@@ -49,13 +49,21 @@ import kenali77.projects.hwchallenge.ui.theme.*
 import java.math.RoundingMode
 import kotlin.math.roundToInt
 
-
+fun getHeaderText(): String {
+    val content = listOf(
+        "Ready for another adventure? Obvs!",
+        "Been dreaming of anywhere lately?",
+        "Fancy a new adventure?",
+        "Let the adventures begin!"
+    )
+    return content.random()
+}
 
 @Composable
 fun Toolbar(
     modifier: Modifier = Modifier,
     lazyListState: LazyListState,
-    headerText:String
+    headerText:String = getHeaderText()
 ) {
     Surface(
         modifier = modifier
