@@ -1,5 +1,7 @@
 package kenali77.projects.hwchallenge.domain.model
 
+import kotlin.math.roundToInt
+
 data class Property(
     val address1: String,
     val address2: String,
@@ -44,4 +46,41 @@ data class Property(
     val stayRuleViolations: List<StayRuleViolation>,
     val type: String,
     val veryPopular: Boolean
-)
+) {
+    fun getDormDiscount():String{
+        var dormDiscountPercentage = ""
+
+        if (lowestAverageDormPricePerNight != null) {
+            val price = lowestAverageDormPricePerNight
+            if (price.original != null) {
+                if (price.original > price.value) {
+                    dormDiscountPercentage = "${
+                        (((price.value.toFloat() / price.original.toFloat()) * 100) - 100).roundToInt()
+                    }%"
+
+                }
+            }
+
+        }
+
+        return dormDiscountPercentage
+    }
+
+    fun getPrivateDiscount():String{
+        var privateDiscountPercentage = ""
+        if (lowestAveragePrivatePricePerNight != null) {
+            val price = lowestAveragePrivatePricePerNight
+            if (price.original != null) {
+                if (price.original > price.value) {
+                    privateDiscountPercentage = "${
+                        (((price.value.toFloat() / price.original.toFloat()) * 100) - 100).roundToInt()
+                    }%"
+
+                }
+            }
+
+        }
+        return privateDiscountPercentage
+    }
+
+}

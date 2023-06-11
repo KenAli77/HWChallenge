@@ -18,6 +18,7 @@ class HomeViewModel @Inject constructor(private val repo: MainRepositoryImpl) : 
     var state by mutableStateOf(HomeState())
         private set
 
+
     init {
         getProperties()
     }

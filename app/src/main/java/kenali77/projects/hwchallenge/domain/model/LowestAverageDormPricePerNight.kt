@@ -13,4 +13,13 @@ data class LowestAverageDormPricePerNight(
 
        return value.toBigDecimal().setScale(2, RoundingMode.HALF_UP).toString()
    }
+
+   fun isDiscounted():Boolean {
+       original?.let {
+           return original > getEurValue()
+       }
+       return false
+   }
+
+
 }

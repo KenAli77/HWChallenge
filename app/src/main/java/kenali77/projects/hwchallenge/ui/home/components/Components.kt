@@ -383,29 +383,7 @@ fun FacilitiesBar(facilities: List<FacilityX>, modifier: Modifier = Modifier) {
                 color = LightBlue.copy(0.2f),
                 modifier = Modifier.padding(end = 2.dp)
             ) {
-                when (facility.id) {
-                    Facilities.FREEWIFI.name -> {
-                        Icon(
-                            imageVector = Icons.Rounded.Wifi,
-                            contentDescription = null,
-                            tint = LightBlue,
-                            modifier = Modifier
-                                .size(20.dp)
-                                .padding(1.dp)
-                        )
-                    }
-                    Facilities.BREAKFASTINCLUDED.name -> {
-                        Icon(
-                            imageVector = Icons.Rounded.FreeBreakfast,
-                            contentDescription = null,
-                            tint = LightBlue,
-                            modifier = Modifier
-                                .size(20.dp)
-                                .padding(1.dp)
-
-                        )
-                    }
-                }
+                facility.getFacilityIcon()
 
             }
 
@@ -417,40 +395,12 @@ fun FacilitiesBar(facilities: List<FacilityX>, modifier: Modifier = Modifier) {
 @Composable
 fun PriceBox(property: Property, modifier: Modifier = Modifier) {
 
-    var isDormDiscounted by mutableStateOf(false)
-    var dormDiscountPercentage by mutableStateOf("")
-
-    if (property.lowestAverageDormPricePerNight != null) {
-        val price = property.lowestAverageDormPricePerNight
-        if (price.original != null) {
-            if (price.original > price.value) {
-                isDormDiscounted = true
-                dormDiscountPercentage = "${
-                    (((price.value.toFloat() / price.original.toFloat()) * 100) - 100).roundToInt()
-                }%"
-
-            }
-        }
-    }
-    var isPrivateDiscounted by mutableStateOf(false)
-    var privateDiscountPercentage by mutableStateOf("")
-    if (property.lowestAveragePrivatePricePerNight != null) {
-        val price = property.lowestAveragePrivatePricePerNight
-        if (price.original != null) {
-            if (price.original > price.value) {
-                isPrivateDiscounted = true
-                privateDiscountPercentage = "${
-                    (((price.value.toFloat() / price.original.toFloat()) * 100) - 100).roundToInt()
-                }%"
-            }
-        }
-    }
     Surface(color = Color.Transparent, modifier = modifier) {
         Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
             Column(modifier = Modifier.padding(5.dp), horizontalAlignment = Alignment.End) {
                 property.lowestAveragePrivatePricePerNight?.let { price ->
 
-                    if (isPrivateDiscounted) {
+                    if (property.getPrivateDiscount().isNotEmpty()) {
                         Surface(
                             shape = RectangleShape,
                             color = Magenta
@@ -458,7 +408,7 @@ fun PriceBox(property: Property, modifier: Modifier = Modifier) {
                             Row {
 
                                 Text(
-                                    text = privateDiscountPercentage,
+                                    text = property.getPrivateDiscount(),
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 12.sp,
@@ -474,15 +424,13 @@ fun PriceBox(property: Property, modifier: Modifier = Modifier) {
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
                     )
-                    price.original?.let { original ->
-                        if (original > price.getEurValue()) {
-                            Text(
-                                text = "€ ${original}",
-                                color = Grey,
-                                fontSize = 14.sp,
-                                textDecoration = TextDecoration.LineThrough
-                            )
-                        }
+                    if (price.isDiscounted()) {
+                        Text(
+                            text = "€${price.original}",
+                            color = Grey,
+                            fontSize = 14.sp,
+                            textDecoration = TextDecoration.LineThrough
+                        )
                     }
 
                 }
@@ -503,14 +451,14 @@ fun PriceBox(property: Property, modifier: Modifier = Modifier) {
             )
             Column(modifier = Modifier.padding(5.dp), horizontalAlignment = Alignment.End) {
                 property.lowestAverageDormPricePerNight?.let { price ->
-                    if (isDormDiscounted) {
+                    if (property.getDormDiscount().isNotEmpty()) {
                         Surface(
                             shape = RectangleShape,
                             color = Magenta
                         ) {
                             Row() {
                                 Text(
-                                    text = dormDiscountPercentage,
+                                    text = property.getDormDiscount(),
                                     color = Color.White,
                                     fontSize = 12.sp,
                                     fontWeight = FontWeight.Bold,
@@ -526,16 +474,16 @@ fun PriceBox(property: Property, modifier: Modifier = Modifier) {
                         fontSize = 20.sp
                     )
 
-                    price.original?.let { original ->
-                        if (original > price.getEurValue()) {
-                            Text(
-                                text = "€${original}",
-                                color = Grey,
-                                fontSize = 14.sp,
-                                textDecoration = TextDecoration.LineThrough
-                            )
-                        }
+
+                    if (price.isDiscounted()) {
+                        Text(
+                            text = "€${price.original}",
+                            color = Grey,
+                            fontSize = 14.sp,
+                            textDecoration = TextDecoration.LineThrough
+                        )
                     }
+
 
                 }
                 if (property.lowestAverageDormPricePerNight == null) {
