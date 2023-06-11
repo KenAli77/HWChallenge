@@ -8,12 +8,13 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Place
+import kenali77.projects.hwchallenge.R
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -40,7 +41,7 @@ fun SearchBar(modifier: Modifier, onClick: () -> Unit = {}) {
             val (icon, placeholder, button) = createRefs()
 
             Icon(
-                imageVector = Icons.Outlined.Place,
+                painter = painterResource(id = R.drawable.home_pin),
                 contentDescription = null,
                 tint = Color.DarkGray,
                 modifier = Modifier

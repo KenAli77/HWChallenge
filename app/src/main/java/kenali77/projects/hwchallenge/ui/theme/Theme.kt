@@ -22,10 +22,10 @@ private val LightColorPalette = lightColors(
 
     background = LightPurple,
     onBackground = Color.White,
-//    surface = Color.White,
-//    onPrimary = Color.White,
-//    onSecondary = Color.Black,
-//    onSurface = Color.Black,
+    surface = Color.White,
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    onSurface = Color.Black,
 
 )
 

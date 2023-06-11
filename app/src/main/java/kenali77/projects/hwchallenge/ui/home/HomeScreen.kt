@@ -1,5 +1,7 @@
 package kenali77.projects.hwchallenge.ui.home
 
+import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,7 +17,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kenali77.projects.hwchallenge.ui.components.SearchBar
+import kenali77.projects.hwchallenge.ui.home.components.PropertiesListView
 import kenali77.projects.hwchallenge.ui.home.components.Toolbar
+import kenali77.projects.hwchallenge.ui.home.components.isScrolled
 import kenali77.projects.hwchallenge.ui.theme.DarkPurple
 import kenali77.projects.hwchallenge.ui.theme.LightPurple
 
@@ -23,43 +27,40 @@ import kenali77.projects.hwchallenge.ui.theme.LightPurple
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
     val lazyListState = rememberLazyListState()
-    val scrollState = rememberScrollState()
     val state = viewModel.state
 
-    if (scrollState.isScrollInProgress) {
-        DisposableEffect(Unit) {
-            onDispose {
-                println("scroll completed")
-            }
-        }
-    }
 
     Surface(color = Color.Transparent) {
 
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(20.dp)
+                .fillMaxSize()
         ) {
 
-            Toolbar()
+            AnimatedVisibility(visible = !lazyListState.isScrolled) {
+
+                Toolbar(
+                    modifier = Modifier.padding(20.dp),
+                    lazyListState = lazyListState
+                )
+            }
 
             Surface(color = LightPurple) {
-                SearchBar(modifier = Modifier.padding(top = 10.dp))
+                SearchBar(
+                    modifier = Modifier.padding(20.dp)
+                )
+            }
+            state.properties?.let {
+                PropertiesListView(
+                    properties = it,
+                    onItemClick = {},
+                    modifier = Modifier,
+                    lazyListState = lazyListState
+                )
+
             }
 
-            LazyColumn() {
-                state.properties?.let {
-                    items(it.properties) { property ->
 
-                        Row(modifier = Modifier.fillMaxWidth()) {
-                            Text(text = property.name)
-                        }
-
-                    }
-                }
-
-            }
         }
     }
 

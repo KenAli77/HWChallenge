@@ -11,6 +11,8 @@ import android.location.LocationRequest
 import android.util.Log
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
+import kenali77.projects.hwchallenge.data.remote.ApiService
+import kenali77.projects.hwchallenge.data.repo.MainRepositoryImpl
 import kenali77.projects.hwchallenge.domain.location.LocationTracker
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +28,27 @@ class DefaultLocationTracker @Inject constructor(
 ) : LocationTracker {
 
     companion object {
-       const val TAG = "DefaultLocationTracker"
+        const val TAG = "DefaultLocationTracker"
+
+        // For Singleton instantiation
+        @Volatile
+        private var instance: DefaultLocationTracker? = null
+
+        fun getInstance(
+            fusedLocationProviderClient: FusedLocationProviderClient,
+            application: Application,
+            locationManager: LocationManager,
+            geocoder: Geocoder
+        ) =
+            instance ?: synchronized(this) {
+                instance ?: DefaultLocationTracker(
+                    fusedLocationProviderClient,
+                    application,
+                    locationManager,
+                    geocoder
+                ).also { instance = it }
+            }
+
     }
 
     private val job = SupervisorJob()
@@ -83,7 +105,6 @@ class DefaultLocationTracker @Inject constructor(
 
         }
     }
-
 
 
 }

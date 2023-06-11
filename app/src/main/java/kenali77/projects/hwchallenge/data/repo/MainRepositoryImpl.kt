@@ -9,6 +9,19 @@ import kenali77.projects.hwchallenge.domain.repo.MainRepository as MainRepositor
 
 class MainRepositoryImpl @Inject constructor(private val apiService: ApiService) : MainRepository {
 
+
+    companion object {
+
+        // For Singleton instantiation
+        @Volatile
+        private var instance: MainRepositoryImpl? = null
+
+        fun getInstance(apiService: ApiService) =
+            instance ?: synchronized(this) {
+                instance ?: MainRepositoryImpl(apiService).also { instance = it }
+            }
+    }
+
     override suspend fun getProperties(): Resource<Properties> {
         return try {
             val data = apiService.getProperties()
