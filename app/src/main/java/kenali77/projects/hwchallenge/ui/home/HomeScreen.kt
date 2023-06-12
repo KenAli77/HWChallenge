@@ -43,7 +43,8 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(),navHostController: Nav
             state.properties?.let {
                 PropertiesListView(
                     properties = it,
-                    onItemClick = {navHostController.navigate(Screens.DetailScreen.route)},
+                    onItemClick = {
+                        navHostController.navigate(Screens.DetailScreen.route + "?propertyId=${it.id}")},
                     modifier = Modifier,
                     lazyListState = lazyListState
                 )

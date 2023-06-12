@@ -1,6 +1,7 @@
 package kenali77.projects.hwchallenge.ui.propertyDetails.components
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
@@ -16,7 +17,7 @@ import kenali77.projects.hwchallenge.domain.model.Property
 
 @Composable
 fun ImageSlider(property: Property) {
-    LazyRow(contentPadding = PaddingValues(8.dp)) {
+    LazyRow(contentPadding = PaddingValues(8.dp), modifier = Modifier.fillMaxWidth()) {
         items(property.imagesGallery) { item ->
             Surface(modifier = Modifier.height(250.dp).width(300.dp)) {
                 GlideImage(

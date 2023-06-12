@@ -17,6 +17,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kenali77.projects.hwchallenge.domain.model.Property
 import kenali77.projects.hwchallenge.ui.home.HomeScreen
 import kenali77.projects.hwchallenge.ui.home.HomeViewModel
+import kenali77.projects.hwchallenge.ui.propertyDetails.PropertyDetailViewModel
 import kenali77.projects.hwchallenge.ui.propertyDetails.PropertyDetailsScreen
 import kenali77.projects.hwchallenge.ui.theme.DarkPurple
 
@@ -48,15 +49,15 @@ fun MainNavGraph(navHostController: NavHostController) {
                 HomeScreen(viewModel = homeViewModel, navHostController = navHostController)
             }
             composable(
-                route = Screens.DetailScreen.route, arguments = listOf(
+                route = Screens.DetailScreen.route + "?propertyId={propertyId}", arguments = listOf(
                     navArgument("propertyId") {
-                        type = NavType.StringType
-                        nullable = false
+                        type = NavType.IntType
+                        defaultValue = -1
                     })
             ) { navBackStackEntry ->
-                val propertyId = navBackStackEntry.arguments?.getString("propertyId")!!
-
-                PropertyDetailsScreen(propertyId = propertyId)
+                val propertyId = navBackStackEntry.arguments?.getInt("propertyId")!!
+                val propertyDetailViewModel = hiltViewModel<PropertyDetailViewModel>(navBackStackEntry)
+                PropertyDetailsScreen(propertyId = propertyId,propertyDetailViewModel)
             }
 
         }

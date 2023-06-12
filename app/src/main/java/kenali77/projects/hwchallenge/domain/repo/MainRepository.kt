@@ -6,4 +6,5 @@ import kenali77.projects.hwchallenge.domain.model.Properties
 interface MainRepository {
 
     suspend fun getProperties():Resource<Properties>
+
 }

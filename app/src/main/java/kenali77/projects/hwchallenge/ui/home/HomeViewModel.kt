@@ -53,9 +53,7 @@ class HomeViewModel @Inject constructor(private val repo: MainRepositoryImpl) : 
             }
         }
     }
-
-
-
+    
     data class HomeState(
         val properties: Properties? = null,
         val error: String? = null,
