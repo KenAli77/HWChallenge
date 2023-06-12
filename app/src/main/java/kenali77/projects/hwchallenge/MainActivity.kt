@@ -10,8 +10,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kenali77.projects.hwchallenge.ui.home.HomeScreen
+import kenali77.projects.hwchallenge.ui.navigation.MainNavGraph
 import kenali77.projects.hwchallenge.ui.theme.HWChallengeTheme
 
 @AndroidEntryPoint
@@ -21,12 +23,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             HWChallengeTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    HomeScreen()
-                }
+                val navHostController = rememberNavController()
+                MainNavGraph(navHostController = navHostController )
             }
         }
     }

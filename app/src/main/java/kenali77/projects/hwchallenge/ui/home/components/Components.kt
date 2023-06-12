@@ -3,10 +3,7 @@ package kenali77.projects.hwchallenge.ui.home.components
 import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -62,7 +59,6 @@ fun getHeaderText(): String {
 @Composable
 fun Toolbar(
     modifier: Modifier = Modifier,
-    lazyListState: LazyListState,
     headerText:String = getHeaderText()
 ) {
     Surface(
@@ -70,7 +66,6 @@ fun Toolbar(
             .fillMaxWidth()
             .animateContentSize(tween(500))
             .height(70.dp),
-//            .animateContentSize(animationSpec = tween(400)),
         color = LightPurple
 
     ) {
@@ -138,7 +133,7 @@ fun PropertiesListView(
     ) {
 
         items(properties.properties) { item: Property ->
-            PropertyItemView(property = item)
+            PropertyItemView(property = item, onItemClick = onItemClick)
         }
     }
 
@@ -146,12 +141,13 @@ fun PropertiesListView(
 
 
 @Composable
-fun PropertyItemView(property: Property) {
+fun PropertyItemView(property: Property,onItemClick: (property: Property) -> Unit) {
 
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 10.dp),
+            .padding(vertical = 10.dp)
+            .clickable { onItemClick(property) },
         shape = RoundedCornerShape(20.dp),
         border = BorderStroke(
             1.dp,
@@ -212,7 +208,9 @@ fun PropertyItemView(property: Property) {
                             start.linkTo(parent.start)
                             top.linkTo(info.bottom)
                         }
-                        .padding(horizontal = 10.dp, vertical = 5.dp))
+                        .padding(horizontal = 10.dp, vertical = 5.dp),
+                    healthBadge = property.facilities.find { it.id == FacilityCategory.FACILITYCATEGORYGENERAL.name }?.facilities?.find { it.id == Facilities.SANITISATIONBADGE.name }
+                )
 
                 PriceBox(property = property, modifier = Modifier
                     .fillMaxWidth(0.6f)
@@ -247,6 +245,7 @@ fun PropertyItemView(property: Property) {
                     }
 
                 }
+            
             }
         }
 
@@ -328,11 +327,6 @@ fun ListItemImageSlider(images: List<ImagesGallery>, modifier: Modifier) {
 
 
 @Composable
-fun ImageSlider() {
-
-}
-
-@Composable
 fun RatingBar(modifier: Modifier, rating: OverallRating) {
 
     Row(
@@ -369,7 +363,7 @@ fun RatingBar(modifier: Modifier, rating: OverallRating) {
 }
 
 @Composable
-fun FacilitiesBar(facilities: List<FacilityX>, modifier: Modifier = Modifier) {
+fun FacilitiesBar(facilities: List<FacilityX>, modifier: Modifier = Modifier,healthBadge:FacilityX?) {
 
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -381,13 +375,24 @@ fun FacilitiesBar(facilities: List<FacilityX>, modifier: Modifier = Modifier) {
 
             Surface(
                 shape = RoundedCornerShape(20.dp),
-                color = LightBlue.copy(0.2f),
+                color = LightBlue.copy(0.1f),
                 modifier = Modifier.padding(end = 2.dp)
             ) {
                 facility.getFacilityIcon()
 
             }
 
+        }
+
+        healthBadge?.let {
+            Surface(
+                shape = RoundedCornerShape(20.dp),
+                color = LightBlue.copy(0.1f),
+                modifier = Modifier.padding(end = 2.dp)
+            ) {
+                it.getFacilityIcon()
+
+            }
         }
 
     }

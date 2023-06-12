@@ -46,7 +46,7 @@ data class Property(
     val stayRuleViolations: List<StayRuleViolation>,
     val type: String,
     val veryPopular: Boolean
-) {
+) : java.io.Serializable {
     fun getDormDiscount():String{
         var dormDiscountPercentage = ""
 
