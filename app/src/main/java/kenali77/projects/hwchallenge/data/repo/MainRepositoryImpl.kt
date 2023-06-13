@@ -43,23 +43,4 @@ class MainRepositoryImpl @Inject constructor(private val apiService: ApiService)
 
         }
     }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    suspend fun getPropertyById(id: Int): Resource<Property> {
-
-        return suspendCancellableCoroutine<Resource<Property>> { cont ->
-
-            try {
-                scope.launch {
-                    val data = apiService.getProperties()
-                    val property = data.properties.find { it.id == id }
-
-                    cont.resume(Resource.Success(property),null)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                cont.resume(Resource.Error(e.message.toString()),null)
-            }
-        }
-    }
 }

@@ -26,13 +26,13 @@ fun MainNavGraph(navHostController: NavHostController) {
     val systemUiController = rememberSystemUiController()
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
 
-    when (navBackStackEntry?.destination?.route) {
+    when (navBackStackEntry?.destination?.route?.substringBefore("/")) {
         Screens.HomeScreen.route -> {
             systemUiController.setStatusBarColor(
                 color = DarkPurple,
             )
         }
-        Screens.DetailScreen.route -> {
+        Screens.DetailScreen.route.substringBefore("/") -> {
             systemUiController.setStatusBarColor(
                 color = Color.Gray.copy(0.4f),
             )
@@ -57,7 +57,7 @@ fun MainNavGraph(navHostController: NavHostController) {
             ) { navBackStackEntry ->
                 val propertyId = navBackStackEntry.arguments?.getInt("propertyId")!!
                 val propertyDetailViewModel = hiltViewModel<PropertyDetailViewModel>(navBackStackEntry)
-                PropertyDetailsScreen(propertyId = propertyId,propertyDetailViewModel)
+                PropertyDetailsScreen(propertyId = propertyId,propertyDetailViewModel, navHostController = navHostController)
             }
 
         }

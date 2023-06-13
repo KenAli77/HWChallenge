@@ -7,13 +7,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kenali77.projects.hwchallenge.data.Resource
+import kenali77.projects.hwchallenge.data.local.database.PropertiesDatabase
+import kenali77.projects.hwchallenge.data.local.database.PropertyModel
 import kenali77.projects.hwchallenge.data.repo.MainRepositoryImpl
 import kenali77.projects.hwchallenge.domain.model.Properties
+import kenali77.projects.hwchallenge.domain.model.Property
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val repo: MainRepositoryImpl) : ViewModel() {
+class HomeViewModel @Inject constructor(private val repo: MainRepositoryImpl,private val db:PropertiesDatabase) : ViewModel() {
 
     var state by mutableStateOf(HomeState())
         private set
@@ -41,6 +44,8 @@ class HomeViewModel @Inject constructor(private val repo: MainRepositoryImpl) : 
                             error = null,
                             loading = false,
                         )
+
+                        addPropertiesToDb(it.properties)
                     }
                 }
                 is Resource.Error -> {
@@ -53,7 +58,50 @@ class HomeViewModel @Inject constructor(private val repo: MainRepositoryImpl) : 
             }
         }
     }
-    
+
+    private fun addPropertiesToDb(properties: List<Property>) {
+        viewModelScope.launch {
+            val propertiesList = ArrayList<PropertyModel>()
+            for(property in properties){
+                val prop:PropertyModel = populatePropertyModelData(property)
+                propertiesList.add(prop)
+            }
+            db.propertiesDao().insertAll(*propertiesList.toTypedArray())
+        }
+    }
+
+    fun populatePropertyModelData(property: Property): PropertyModel {
+        return PropertyModel(
+            address1 = property.address1,
+            address2 = property.address2,
+            distance = property.distance,
+            facilities = property.facilities,
+            freeCancellationAvailable = property.freeCancellationAvailable,
+            freeCancellationAvailableUntil = property.freeCancellationAvailableUntil,
+            hbid = property.hbid,
+            hostelworldRecommends = property.hostelworldRecommends,
+            id = property.id,
+            imagesGallery = property.imagesGallery,
+            isElevate = property.isElevate,
+            isFeatured = property.isFeatured,
+            isNew = property.isNew,
+            isPromoted = property.isPromoted,
+            latitude = property.latitude,
+            longitude = property.longitude,
+            lowestAverageDormPricePerNight = property.lowestAverageDormPricePerNight,
+            lowestAveragePrivatePricePerNight = property.lowestAveragePrivatePricePerNight,
+            name = property.name,
+            overallRating = property.overallRating,
+            overview = property.overview,
+            position = property.position,
+            ratingBreakdown = property.ratingBreakdown,
+            starRating = property.starRating,
+            type = property.type,
+            veryPopular = property.veryPopular,
+
+            )
+    }
+
     data class HomeState(
         val properties: Properties? = null,
         val error: String? = null,

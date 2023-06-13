@@ -5,7 +5,6 @@ import java.math.RoundingMode
 data class LowestAverageDormPricePerNight(
     val currency: String,
     val original: String?,
-    val promotions: Promotions?,
     val value: String
 ) {
    fun getEurValue():String {

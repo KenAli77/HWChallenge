@@ -9,6 +9,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import kenali77.projects.hwchallenge.data.Resource
+import kenali77.projects.hwchallenge.data.local.database.PropertiesDatabase
+import kenali77.projects.hwchallenge.data.local.database.PropertyModel
 import kenali77.projects.hwchallenge.data.repo.MainRepositoryImpl
 import kenali77.projects.hwchallenge.domain.model.Property
 import kotlinx.coroutines.launch
@@ -17,9 +19,10 @@ import javax.inject.Inject
 @HiltViewModel
 class PropertyDetailViewModel @Inject constructor(
     private val repo: MainRepositoryImpl, savedStateHandle: SavedStateHandle,
+    private val db: PropertiesDatabase
 ) : ViewModel() {
 
-    private var propertyId: Int? = savedStateHandle["noteId"]
+    private var propertyId: Int? = savedStateHandle["propertyId"]
 
     var state by mutableStateOf(PropertyState())
         private set
@@ -28,28 +31,21 @@ class PropertyDetailViewModel @Inject constructor(
 
         viewModelScope.launch {
             propertyId?.let {
+                if (it != -1)
+                Log.e("id in vm", it.toString())
                 state = state.copy(
                     loading = true,
                     data = null,
                     error = null,
                 )
-               val result =  repo.getPropertyById(it)
-                when(result){
-                    is Resource.Error -> {
-                        state = state.copy(
-                            null,
-                            error = result.message,
-                            loading = false
-                        )
-                    }
-                    is Resource.Success -> {
-                        state = state.copy(
-                            result.data,
-                            error = null,
-                            loading = false
-                        )
-                    }
-                }
+                db.propertiesDao()
+                val result = db.propertiesDao().getPropertyById(it)
+                state = state.copy(
+                    data = result,
+                    loading = false,
+                    error = null
+                )
+
 
             }
         }
@@ -57,7 +53,7 @@ class PropertyDetailViewModel @Inject constructor(
     }
 
     data class PropertyState(
-        val data: Property? = null,
+        val data: PropertyModel? = null,
         val error: String? = null,
         val loading: Boolean? = false
     )
