@@ -4,11 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.FreeBreakfast
-import androidx.compose.material.icons.rounded.Wifi
+import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +27,11 @@ data class FacilityX(
 
     @Composable
     fun getFacilityIcon() {
+        Surface(
+            shape = RoundedCornerShape(20.dp),
+            color = LightBlue.copy(0.1f),
+            modifier = Modifier.padding(end = 2.dp)
+        ) {
         when (id) {
             Facilities.FREEWIFI.name -> {
                 Icon(
@@ -70,6 +76,54 @@ data class FacilityX(
                     )
                 }
             }
+            Facilities.FREEINTERNETACCESS.name -> {
+                Icon(
+                    imageVector = Icons.Rounded.Wifi,
+                    contentDescription = null,
+                    tint = LightBlue,
+                    modifier = Modifier
+                        .size(20.dp)
+                        .padding(2.dp)
+
+                )
+            }
+            Facilities.LINENINCLUDED.name -> {
+                Icon(
+                    imageVector = Icons.Rounded.Bed,
+                    contentDescription = null,
+                    tint = LightBlue,
+                    modifier = Modifier
+                        .size(20.dp)
+                        .padding(2.dp)
+
+                )
+            }
+            Facilities.FREECITYMAPS.name -> {
+                Icon(
+                    imageVector = Icons.Rounded.Map,
+                    contentDescription = null,
+                    tint = LightBlue,
+                    modifier = Modifier
+                        .size(20.dp)
+                        .padding(2.dp)
+
+                )
+            }
+            Facilities.FREECITYTOUR.name -> {
+                Icon(
+                    imageVector = Icons.Rounded.Tour,
+                    contentDescription = null,
+                    tint = LightBlue,
+                    modifier = Modifier
+                        .size(20.dp)
+                        .padding(2.dp)
+
+                )
+            }
+
+
+
+        }
         }
     }
 }
@@ -80,7 +134,10 @@ enum class Facilities {
     FREEINTERNETACCESS,
     FREECITYTOUR,
     BREAKFASTINCLUDED,
-    SANITISATIONBADGE
+    SANITISATIONBADGE,
+    LINENINCLUDED,
+    FREECITYMAPS,
+
 
 }
 

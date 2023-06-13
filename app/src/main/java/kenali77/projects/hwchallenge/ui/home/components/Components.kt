@@ -375,27 +375,12 @@ fun FacilitiesBar(facilities: List<FacilityX>, modifier: Modifier = Modifier,hea
     ) {
 
         facilities.forEach { facility ->
-
-            Surface(
-                shape = RoundedCornerShape(20.dp),
-                color = LightBlue.copy(0.1f),
-                modifier = Modifier.padding(end = 2.dp)
-            ) {
+            if(facility.id == Facilities.FREEWIFI.name ||facility.name == Facilities.BREAKFASTINCLUDED.name || facility.name == Facilities.FREEINTERNETACCESS.name)
                 facility.getFacilityIcon()
-
-            }
-
         }
 
         healthBadge?.let {
-            Surface(
-                shape = RoundedCornerShape(20.dp),
-                color = LightBlue.copy(0.1f),
-                modifier = Modifier.padding(end = 2.dp)
-            ) {
                 it.getFacilityIcon()
-
-            }
         }
 
     }
