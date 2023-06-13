@@ -1,6 +1,7 @@
 package kenali77.projects.hwchallenge.ui.propertyDetails.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -14,6 +15,7 @@ import androidx.compose.material.icons.outlined.IosShare
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -30,7 +32,7 @@ import kenali77.projects.hwchallenge.domain.model.ImagesGallery
 import kenali77.projects.hwchallenge.domain.model.Property
 
 @Composable
-fun ImageSlider(images: List<ImagesGallery>,modifier:Modifier=Modifier) {
+fun ImageSlider(images: List<ImagesGallery>, modifier: Modifier = Modifier) {
     LazyRow(contentPadding = PaddingValues(8.dp), modifier = modifier.fillMaxWidth()) {
         itemsIndexed(images) { index, item ->
             val roundedCornersStart = if (index == 0) 20.dp else 0.dp
@@ -59,7 +61,12 @@ fun ImageSlider(images: List<ImagesGallery>,modifier:Modifier=Modifier) {
 }
 
 @Composable
-fun TopBar(property: PropertyModel,onBackPressed:()->Unit = {},onShare:(property:PropertyModel)->Unit={},modifier: Modifier) {
+fun TopBar(
+    property: PropertyModel,
+    onBackPressed: () -> Unit = {},
+    onShare: (property: PropertyModel) -> Unit = {},
+    modifier: Modifier
+) {
     ConstraintLayout(
         modifier
             .fillMaxWidth()
@@ -77,7 +84,10 @@ fun TopBar(property: PropertyModel,onBackPressed:()->Unit = {},onShare:(property
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
                     bottom.linkTo(parent.bottom)
-                }.clickable { onBackPressed() },
+                }
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }) { onBackPressed() },
         )
 
         Text(
@@ -102,6 +112,8 @@ fun TopBar(property: PropertyModel,onBackPressed:()->Unit = {},onShare:(property
                     end.linkTo(parent.end)
                     bottom.linkTo(parent.bottom)
                 }
-                .clickable { onShare(property) })
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }) { onShare(property) })
     }
 }

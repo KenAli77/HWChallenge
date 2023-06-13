@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -147,7 +148,9 @@ fun PropertyItemView(property: Property,onItemClick: (property: Property) -> Uni
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 10.dp)
-            .clickable { onItemClick(property) },
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }) { onItemClick(property) },
         shape = RoundedCornerShape(20.dp),
         border = BorderStroke(
             1.dp,

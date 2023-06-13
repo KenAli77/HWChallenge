@@ -2,6 +2,7 @@ package kenali77.projects.hwchallenge.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -11,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import kenali77.projects.hwchallenge.R
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,7 +30,9 @@ fun SearchBar(modifier: Modifier, onClick: () -> Unit = {}) {
         shape = RoundedCornerShape(25.dp),
         color = Color.White,
         modifier = modifier
-            .clickable { onClick() },
+            .clickable (
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }){ onClick() },
         border = BorderStroke(1.2.dp, Grey)
     ) {
 
