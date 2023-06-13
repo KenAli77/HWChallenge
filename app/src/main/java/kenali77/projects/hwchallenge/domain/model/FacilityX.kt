@@ -26,9 +26,9 @@ data class FacilityX(
 ) {
 
     @Composable
-    fun getFacilityIcon() {
+    fun getFacilityIcon(size:Int = 20,padding:Int = 2) {
         Surface(
-            shape = RoundedCornerShape(20.dp),
+            shape = RoundedCornerShape(size.dp),
             color = LightBlue.copy(0.1f),
             modifier = Modifier.padding(end = 2.dp)
         ) {
@@ -39,8 +39,8 @@ data class FacilityX(
                     contentDescription = null,
                     tint = LightBlue,
                     modifier = Modifier
-                        .size(20.dp)
-                        .padding(2.dp)
+                        .size(size.dp)
+                        .padding(padding.dp)
                 )
             }
             Facilities.BREAKFASTINCLUDED.name -> {
@@ -49,8 +49,8 @@ data class FacilityX(
                     contentDescription = null,
                     tint = LightBlue,
                     modifier = Modifier
-                        .size(20.dp)
-                        .padding(2.dp)
+                        .size(size.dp)
+                        .padding(padding.dp)
 
                 )
             }
@@ -64,8 +64,8 @@ data class FacilityX(
                         contentDescription = null,
                         tint = LightBlue,
                         modifier = Modifier
-                            .size(20.dp)
-                            .padding(2.dp)
+                            .size(size.dp)
+                            .padding(padding.dp)
 
                     )
                     Text(
@@ -82,8 +82,8 @@ data class FacilityX(
                     contentDescription = null,
                     tint = LightBlue,
                     modifier = Modifier
-                        .size(20.dp)
-                        .padding(2.dp)
+                        .size(size.dp)
+                        .padding(padding.dp)
 
                 )
             }
@@ -93,8 +93,8 @@ data class FacilityX(
                     contentDescription = null,
                     tint = LightBlue,
                     modifier = Modifier
-                        .size(20.dp)
-                        .padding(2.dp)
+                        .size(size.dp)
+                        .padding(padding.dp)
 
                 )
             }
@@ -104,8 +104,8 @@ data class FacilityX(
                     contentDescription = null,
                     tint = LightBlue,
                     modifier = Modifier
-                        .size(20.dp)
-                        .padding(2.dp)
+                        .size(size.dp)
+                        .padding(padding.dp)
 
                 )
             }
@@ -115,11 +115,22 @@ data class FacilityX(
                     contentDescription = null,
                     tint = LightBlue,
                     modifier = Modifier
-                        .size(20.dp)
-                        .padding(2.dp)
+                        .size(size.dp)
+                        .padding(padding.dp)
 
                 )
             }
+            else -> {
+            Icon(
+                imageVector = Icons.Rounded.TaskAlt,
+                contentDescription = null,
+                tint = LightBlue,
+                modifier = Modifier
+                    .size(size.dp)
+                    .padding(padding.dp)
+
+            )
+        }
 
 
 

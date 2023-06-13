@@ -10,7 +10,7 @@ class LowestAvgPricePerNightConverter {
     private val gson = Gson()
 
     @TypeConverter
-    fun fromDormPrice(json: String): LowestAverageDormPricePerNight {
+    fun fromDormPrice(json: String?): LowestAverageDormPricePerNight? {
         return gson.fromJson(json, LowestAverageDormPricePerNight::class.java)
     }
 
@@ -20,7 +20,7 @@ class LowestAvgPricePerNightConverter {
     }
 
     @TypeConverter
-    fun fromPrivatePrice(json: String): LowestAveragePrivatePricePerNight {
+    fun fromPrivatePrice(json: String?): LowestAveragePrivatePricePerNight? {
         return gson.fromJson(json, LowestAveragePrivatePricePerNight::class.java)
     }
 
