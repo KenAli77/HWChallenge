@@ -115,6 +115,8 @@ dependencies {
     implementation "com.google.accompanist:accompanist-permissions:0.28.0"
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.31.3-beta"
 
+    // Mockito
+    testImplementation "org.mockito.kotlin:mockito-kotlin:4.0.0"
 
 
 

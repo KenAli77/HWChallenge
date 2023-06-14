@@ -25,15 +25,11 @@ class MainRepositoryImpl @Inject constructor(private val apiService: ApiService)
             }
     }
 
-    var properties = MutableStateFlow<List<Property>>(listOf())
-    private val job = SupervisorJob()
-    private val scope = CoroutineScope(Dispatchers.IO + job)
 
 
     override suspend fun getProperties(): Resource<Properties> {
         return try {
             val data = apiService.getProperties()
-            properties.value = data.properties
             Resource.Success(data)
         } catch (e: Exception) {
             e.printStackTrace()
