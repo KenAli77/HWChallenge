@@ -28,6 +28,10 @@ import kenali77.projects.hwchallenge.ui.theme.Grey
 import kenali77.projects.hwchallenge.ui.theme.Orange
 import kenali77.projects.hwchallenge.ui.utils.customClickable
 
+/**
+ *
+ */
+
 @Composable
 fun SearchBar(
     modifier: Modifier,
@@ -37,8 +41,6 @@ fun SearchBar(
     onSearch: () -> Unit,
     isHintVisible:Boolean
 ) {
-    val focusRequester = remember { FocusRequester() }
-    val focusManager = LocalFocusManager.current
     Surface(
         shape = RoundedCornerShape(25.dp),
         color = Color.White,

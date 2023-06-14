@@ -7,6 +7,9 @@ import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * This class represents our Data Access Object to our Properties Database
+ */
 @Dao
 interface PropertiesDAO {
 

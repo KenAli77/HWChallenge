@@ -3,6 +3,9 @@ package kenali77.projects.hwchallenge.data.remote
 import kenali77.projects.hwchallenge.domain.model.Properties
 import retrofit2.http.GET
 
+/**
+ * This class represents the model to our Retrofit service to make HTTP requests
+ */
 interface ApiService {
 
     companion object {

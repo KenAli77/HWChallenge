@@ -17,7 +17,11 @@ import retrofit2.create
 import java.util.*
 import javax.inject.Singleton
 
-
+/**
+ * This is a dagger hilt module
+ * the purpose of this class is to provide single instances throughout the application
+ * of the specified classes
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
@@ -32,24 +36,6 @@ object AppModule {
             .build()
             .create()
     }
-
-    @Provides
-    @Singleton
-    fun provideFusedLocationProviderClient(app: Application): FusedLocationProviderClient {
-        return LocationServices.getFusedLocationProviderClient(app)
-    }
-
-    @Provides
-    @Singleton
-    fun provideLocationManager(app: Application): LocationManager {
-        return  app.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-    }
-
-    @Provides
-    @Singleton
-    fun providesGeoCoder(
-        app: Application
-    ): Geocoder = Geocoder(app, Locale.getDefault())
 
 
 }

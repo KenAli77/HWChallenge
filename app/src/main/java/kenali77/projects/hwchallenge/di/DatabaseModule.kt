@@ -11,6 +11,9 @@ import kenali77.projects.hwchallenge.data.local.database.PropertiesDAO
 import kenali77.projects.hwchallenge.data.local.database.PropertiesDatabase
 import javax.inject.Singleton
 
+/**
+ * This is a dagger hilt module providing instances of the property database and dao
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {

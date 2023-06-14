@@ -10,6 +10,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 import kenali77.projects.hwchallenge.domain.repo.MainRepository as MainRepository
 
+/**
+ * This is the main repository that fetches properties data
+ */
+
 class MainRepositoryImpl @Inject constructor(private val apiService: ApiService) : MainRepository {
 
 

@@ -7,6 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import kenali77.projects.hwchallenge.data.local.converters.*
 
+
 @Database(entities = [PropertyModel::class], version = 1)
 @TypeConverters(
     PropertiesConverter::class,
