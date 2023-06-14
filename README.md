@@ -1,4 +1,4 @@
-![](https://github.com/KenAli77/hwchallenge/blob/master/HW_Challenge_GitHub_Banner.png)
+![](https://github.com/KenAli77/hwchallenge/blob/master/HW%20Challenge%20GitHub%20Banner.png)
 
 
 # HWChallenge
