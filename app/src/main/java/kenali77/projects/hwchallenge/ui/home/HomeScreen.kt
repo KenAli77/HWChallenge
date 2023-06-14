@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import kenali77.projects.hwchallenge.ui.components.SearchBar
+import kenali77.projects.hwchallenge.ui.home.components.NoMatchingResults
 import kenali77.projects.hwchallenge.ui.home.components.PropertiesListView
 import kenali77.projects.hwchallenge.ui.home.components.Toolbar
 import kenali77.projects.hwchallenge.ui.home.components.isScrolled
@@ -56,14 +57,19 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(), navHostController: Na
             }
 
             properties?.let {
-                PropertiesListView(
-                    properties = it,
-                    onItemClick = {
-                        navHostController.navigate(Screens.DetailScreen.route + "?propertyId=${it.id}")
-                    },
-                    modifier = Modifier,
-                    lazyListState = lazyListState
-                )
+                if(it.isEmpty()){
+                    NoMatchingResults(modifier=Modifier)
+                } else {
+                    PropertiesListView(
+                        properties = it,
+                        onItemClick = {
+                            navHostController.navigate(Screens.DetailScreen.route + "?propertyId=${it.id}")
+                        },
+                        modifier = Modifier,
+                        lazyListState = lazyListState
+                    )
+
+                }
 
             }
 

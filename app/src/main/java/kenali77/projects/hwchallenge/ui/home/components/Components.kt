@@ -133,7 +133,20 @@ fun PropertiesListView(
 
 }
 
-
+@Composable
+fun NoMatchingResults(modifier: Modifier=Modifier){
+    Surface(
+        modifier = modifier.fillMaxSize(), shape = RoundedCornerShape(
+            topStart = 20.dp,
+            topEnd = 20.dp
+        ),
+        color = Color.White
+    ) {
+        Box(Modifier.fillMaxSize().padding(20.dp), contentAlignment = Alignment.Center) {
+            Text(text = "No matching results found. Please try a different search term", color = Grey, fontSize = 20.sp, textAlign = TextAlign.Center)
+        }
+    }
+}
 @Composable
 fun PropertyItemView(property: Property, onItemClick: (property: Property) -> Unit) {
 

@@ -47,7 +47,6 @@ fun SearchBar(
                 interactionSource = remember { MutableInteractionSource() }) { onClick() },
         border = BorderStroke(1.2.dp, Grey)
     ) {
-
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxWidth()
