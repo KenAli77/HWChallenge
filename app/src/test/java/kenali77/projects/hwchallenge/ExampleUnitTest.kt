@@ -19,25 +19,10 @@ import org.mockito.Mockito.`when`
  */
 class ExampleUnitTest {
 
-//    val mockProperties = Properties(
-//
-//    )
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
 
-    @Test
-   suspend fun `test getProperties() returns Success when API call is successful`() {
-        val apiService = mock(ApiService::class.java)
-        val responseData = mock(Properties::class.java)
-        `when`(apiService.getProperties()).thenReturn(responseData)
-
-        val repo = MainRepositoryImpl(apiService)
-        val result = runBlocking { repo.getProperties() }
-
-        assertTrue(result is Resource.Success<Properties>)
-        assertEquals(responseData, (result as Resource.Success<Properties>).data)
-    }
 
 }

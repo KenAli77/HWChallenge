@@ -5,4 +5,6 @@ data class City(
     val id: Int,
     val idCountry: Int,
     val name: String
-)
+) {
+
+}
