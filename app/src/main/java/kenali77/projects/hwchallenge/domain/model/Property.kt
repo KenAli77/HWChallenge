@@ -1,5 +1,6 @@
 package kenali77.projects.hwchallenge.domain.model
 
+import kenali77.projects.hwchallenge.domain.search.Searchable
 import kotlin.math.roundToInt
 
 data class Property(
@@ -46,7 +47,7 @@ data class Property(
     val stayRuleViolations: List<StayRuleViolation>,
     val type: String,
     val veryPopular: Boolean
-) : java.io.Serializable {
+) : Searchable {
     fun getDormDiscount():String{
         var dormDiscountPercentage = ""
 
@@ -82,5 +83,11 @@ data class Property(
         }
         return privateDiscountPercentage
     }
+
+    override fun doesMatchSearchQuery(query: String, combinations: List<String>): Boolean {
+        return combinations.any { it.contains(query,true) }
+    }
+
+
 
 }

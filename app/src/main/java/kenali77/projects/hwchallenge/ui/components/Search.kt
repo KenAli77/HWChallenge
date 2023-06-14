@@ -5,17 +5,21 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import kenali77.projects.hwchallenge.R
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -24,15 +28,23 @@ import kenali77.projects.hwchallenge.ui.theme.Grey
 import kenali77.projects.hwchallenge.ui.theme.Orange
 
 @Composable
-fun SearchBar(modifier: Modifier, onClick: () -> Unit = {}) {
-
+fun SearchBar(
+    modifier: Modifier,
+    onClick: () -> Unit = {},
+    textValue: String,
+    onValueChange: (String) -> Unit,
+    onSearch: () -> Unit,
+    isHintVisible:Boolean
+) {
+    val focusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
     Surface(
         shape = RoundedCornerShape(25.dp),
         color = Color.White,
         modifier = modifier
-            .clickable (
+            .clickable(
                 indication = null,
-                interactionSource = remember { MutableInteractionSource() }){ onClick() },
+                interactionSource = remember { MutableInteractionSource() }) { onClick() },
         border = BorderStroke(1.2.dp, Grey)
     ) {
 
@@ -58,17 +70,26 @@ fun SearchBar(modifier: Modifier, onClick: () -> Unit = {}) {
 
             Box(contentAlignment = Alignment.Center, modifier = Modifier.constrainAs(placeholder) {
                 top.linkTo(parent.top)
-                start.linkTo(icon.end, 8.dp)
+                start.linkTo(icon.end)
                 bottom.linkTo(parent.bottom)
             }
             ) {
 
-                Text(
-                    text = "Where to next?",
-                    color = Grey,
-                    textAlign = TextAlign.Center,
 
+                BasicTextField(
+                    value = textValue,
+                    onValueChange = { onValueChange(it) },
+                    maxLines = 1,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                if (isHintVisible) {
+                    Text(
+                        text = "Where next to?",
+                        color = Grey,
+                        modifier = Modifier.align(Alignment.CenterStart)
                     )
+
+                }
             }
 
             Surface(
@@ -85,7 +106,11 @@ fun SearchBar(modifier: Modifier, onClick: () -> Unit = {}) {
                     imageVector = Icons.Outlined.Search,
                     contentDescription = null,
                     tint = Color.White,
-                    modifier = Modifier.padding(12.dp)
+                    modifier = Modifier
+                        .padding(12.dp)
+                        .clickable {
+                            onSearch()
+                        }
 
                 )
             }

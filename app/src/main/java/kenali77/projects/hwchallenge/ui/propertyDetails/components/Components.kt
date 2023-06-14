@@ -50,7 +50,6 @@ import kenali77.projects.hwchallenge.domain.model.ImagesGallery
 import kenali77.projects.hwchallenge.ui.theme.Grey
 import kenali77.projects.hwchallenge.ui.theme.Yellow
 import kenali77.projects.hwchallenge.ui.utils.bigDecimal
-import kenali77.projects.hwchallenge.ui.utils.bitmapFromVector
 
 @Composable
 fun ImageSlider(images: List<ImagesGallery>, modifier: Modifier = Modifier) {

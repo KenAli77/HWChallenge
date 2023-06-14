@@ -12,6 +12,7 @@ import kenali77.projects.hwchallenge.data.local.database.PropertyModel
 import kenali77.projects.hwchallenge.data.repo.MainRepositoryImpl
 import kenali77.projects.hwchallenge.domain.model.Properties
 import kenali77.projects.hwchallenge.domain.model.Property
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,9 +23,32 @@ class HomeViewModel @Inject constructor(private val repo: MainRepositoryImpl,pri
         private set
 
 
+    private var _searchQuery = MutableStateFlow<String>("")
+    val searchQuery = _searchQuery.asStateFlow()
+
+    private var _isSearchOngoing = MutableStateFlow(false)
+    val isSearchOngoing = _isSearchOngoing.asStateFlow()
+
+    private var _properties = MutableStateFlow(state.properties)
+    val properties = searchQuery.combine(_properties){ query,properties ->
+        if(query.isBlank()){
+         return@combine  properties
+        } else {
+
+          return@combine  properties?.filter {
+                val combinations = listOf(it.name)
+                it.doesMatchSearchQuery(query,combinations)
+            }
+        }
+
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000),_properties.value)
+    fun onSearchQueryChange(query:String){
+        _searchQuery.value = query
+    }
     init {
         getProperties()
     }
+
 
     private fun getProperties() {
         state = state.copy(
@@ -40,10 +64,12 @@ class HomeViewModel @Inject constructor(private val repo: MainRepositoryImpl,pri
                 is Resource.Success -> {
                     result.data?.let {
                         state = state.copy(
-                            properties = it,
+                            properties = it.properties,
                             error = null,
                             loading = false,
                         )
+
+                        _properties.value = it.properties
 
                         addPropertiesToDb(it.properties)
                     }
@@ -103,7 +129,8 @@ class HomeViewModel @Inject constructor(private val repo: MainRepositoryImpl,pri
     }
 
     data class HomeState(
-        val properties: Properties? = null,
+        val properties: List<Property>? = null,
+        val searchQuery:String? = null,
         val error: String? = null,
         val loading: Boolean? = false
     )

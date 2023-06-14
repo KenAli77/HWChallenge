@@ -100,36 +100,36 @@ val LazyListState.isScrolled: Boolean
 @Composable
 fun PropertiesListView(
     modifier: Modifier = Modifier,
-    properties: Properties,
+    properties: List<Property>,
     onItemClick: (property: Property) -> Unit,
     lazyListState: LazyListState = rememberLazyListState()
 ) {
 
-    var topCornersRadius by mutableStateOf(0.dp)
+    val topCornersRadius = remember { mutableStateOf(0.dp) }
 
-    topCornersRadius = if (lazyListState.isScrolled) {
+    topCornersRadius.value = if (lazyListState.isScrolled) {
         0.dp
     } else {
         20.dp
     }
 
-    LazyColumn(
-        modifier = modifier
-            .clip(
-                RoundedCornerShape(
-                    topStart = topCornersRadius,
-                    topEnd = topCornersRadius
-                )
-            )
-            .background(
-                Color.White
-            ), contentPadding = PaddingValues(10.dp), state = lazyListState
+    Surface(
+        modifier = modifier.fillMaxSize(), shape = RoundedCornerShape(
+            topStart = topCornersRadius.value,
+            topEnd = topCornersRadius.value
+        ),
+        color = Color.White
     ) {
+        LazyColumn(contentPadding = PaddingValues(10.dp), state = lazyListState
+        ) {
 
-        items(properties.properties) { item: Property ->
-            PropertyItemView(property = item, onItemClick = onItemClick)
+            items(count = properties.count(), key = { properties[it].id }) {
+                PropertyItemView(property = properties[it], onItemClick = onItemClick)
+
+            }
         }
     }
+
 
 }
 
@@ -491,6 +491,10 @@ fun PriceBox(property: Property, modifier: Modifier = Modifier) {
             }
 
         }
+
+//        items(properties) { item: Property ->
+//            PropertyItemView(property = item, onItemClick = onItemClick)
+//        }
     }
 
 }
