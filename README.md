@@ -1,3 +1,6 @@
+![](https://github.com/KenAli77/hwchallenge/blob/master/HW_Challenge_GitHub_Banner.png)
+
+
 # HWChallenge
 
 This is app was built as part of the technical challenge at Hostel World
