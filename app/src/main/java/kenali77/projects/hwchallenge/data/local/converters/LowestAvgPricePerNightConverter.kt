@@ -9,6 +9,17 @@ import kenali77.projects.hwchallenge.domain.model.LowestAveragePrivatePricePerNi
 class LowestAvgPricePerNightConverter {
     private val gson = Gson()
 
+
+    @TypeConverter
+    fun fromPrice(json: String?): LowestAveragePricePerNight? {
+        return gson.fromJson(json, LowestAveragePricePerNight::class.java)
+    }
+
+    @TypeConverter
+    fun toPrice(lowestAveragePricePerNight: LowestAveragePricePerNight?): String {
+        return gson.toJson(lowestAveragePricePerNight)
+    }
+
     @TypeConverter
     fun fromDormPrice(json: String?): LowestAverageDormPricePerNight? {
         return gson.fromJson(json, LowestAverageDormPricePerNight::class.java)

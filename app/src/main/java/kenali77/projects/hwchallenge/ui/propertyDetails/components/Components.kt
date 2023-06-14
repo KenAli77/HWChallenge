@@ -48,8 +48,10 @@ import kenali77.projects.hwchallenge.data.local.database.PropertyModel
 import kenali77.projects.hwchallenge.domain.model.FacilityX
 import kenali77.projects.hwchallenge.domain.model.ImagesGallery
 import kenali77.projects.hwchallenge.ui.theme.Grey
+import kenali77.projects.hwchallenge.ui.theme.Orange
 import kenali77.projects.hwchallenge.ui.theme.Yellow
 import kenali77.projects.hwchallenge.ui.utils.bigDecimal
+import kenali77.projects.hwchallenge.ui.utils.customClickable
 
 @Composable
 fun ImageSlider(images: List<ImagesGallery>, modifier: Modifier = Modifier) {
@@ -90,7 +92,6 @@ fun TopBar(
     ConstraintLayout(
         modifier
             .fillMaxWidth()
-            .height(50.dp)
     ) {
         val (backNav, name, share) = createRefs()
 
@@ -105,9 +106,7 @@ fun TopBar(
                     start.linkTo(parent.start)
                     bottom.linkTo(parent.bottom)
                 }
-                .clickable(
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() }) { onBackPressed() },
+                .customClickable { onBackPressed() },
         )
 
         Text(
@@ -132,9 +131,7 @@ fun TopBar(
                     end.linkTo(parent.end)
                     bottom.linkTo(parent.bottom)
                 }
-                .clickable(
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() }) { onShare(property) })
+                .customClickable { onShare(property) })
     }
 }
 
@@ -405,12 +402,12 @@ fun RatingBreakdownItem(value: Int, name: String, modifier: Modifier) {
 }
 
 @Composable
-fun MapView(lat: Double, long: Double,modifier: Modifier=Modifier) {
+fun MapView(lat: Double, long: Double, modifier: Modifier = Modifier) {
     val location = LatLng(
         lat,
         long
     )
-    Log.e("latLng",location.toString())
+    Log.e("latLng", location.toString())
     val context = LocalContext.current
 
     val uiSettings by remember {
@@ -431,7 +428,9 @@ fun MapView(lat: Double, long: Double,modifier: Modifier=Modifier) {
     }
     val markerState = rememberMarkerState(position = location)
     GoogleMap(
-        modifier = modifier.fillMaxWidth().height(250.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .height(250.dp),
         cameraPositionState = cameraPositionState,
         uiSettings = uiSettings
     ) {
@@ -440,6 +439,44 @@ fun MapView(lat: Double, long: Double,modifier: Modifier=Modifier) {
             flat = true,
             anchor = Offset(0.5f, 0.5f),
 
-        )
+            )
+    }
+}
+
+@Composable
+fun ChooseRoomSection(
+    lowestAvgPrice: String, modifier: Modifier = Modifier
+) {
+
+    Surface(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp),
+        elevation = 10.dp
+    ) {
+
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Column(
+                modifier = Modifier.fillMaxHeight(),
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text(text = "From", fontSize = 12.sp, color = Grey)
+                Text(text = "€${lowestAvgPrice}", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+            }
+
+            Surface(
+                shape = RoundedCornerShape(15.dp),
+                color = Orange,
+            ) {
+                Text(text = "Choose Room", fontWeight = FontWeight.Bold, color = Color.White, modifier = Modifier.padding(12.dp))
+            }
+
+
+        }
     }
 }

@@ -32,6 +32,8 @@ data class PropertyModel(
     val lowestAverageDormPricePerNight: LowestAverageDormPricePerNight?,
     @TypeConverters(LowestAvgPricePerNightConverter::class)
     val lowestAveragePrivatePricePerNight: LowestAveragePrivatePricePerNight?,
+    @TypeConverters(LowestAvgPricePerNightConverter::class)
+    val LowestAveragePricePerNight:LowestAveragePricePerNight?,
     val name: String,
     @TypeConverters(OverallRatingConverter::class)
     val overallRating: OverallRating,

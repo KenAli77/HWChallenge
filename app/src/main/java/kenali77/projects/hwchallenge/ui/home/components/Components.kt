@@ -39,6 +39,7 @@ import com.skydoves.landscapist.glide.GlideImage
 import kenali77.projects.hwchallenge.R
 import kenali77.projects.hwchallenge.domain.model.*
 import kenali77.projects.hwchallenge.ui.theme.*
+import kenali77.projects.hwchallenge.ui.utils.customClickable
 
 fun getHeaderText(): String {
     val content = listOf(
@@ -154,9 +155,7 @@ fun PropertyItemView(property: Property, onItemClick: (property: Property) -> Un
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 10.dp)
-            .clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }) { onItemClick(property) },
+            .customClickable{ onItemClick(property) },
         shape = RoundedCornerShape(20.dp),
         border = BorderStroke(
             1.dp,

@@ -116,6 +116,7 @@ class HomeViewModel @Inject constructor(private val repo: MainRepositoryImpl,pri
             longitude = property.longitude,
             lowestAverageDormPricePerNight = property.lowestAverageDormPricePerNight,
             lowestAveragePrivatePricePerNight = property.lowestAveragePrivatePricePerNight,
+            LowestAveragePricePerNight = property.lowestAveragePricePerNight,
             name = property.name,
             overallRating = property.overallRating,
             overview = property.overview,

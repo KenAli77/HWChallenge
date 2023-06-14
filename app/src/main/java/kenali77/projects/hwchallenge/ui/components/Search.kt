@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import kenali77.projects.hwchallenge.ui.theme.Grey
 import kenali77.projects.hwchallenge.ui.theme.Orange
+import kenali77.projects.hwchallenge.ui.utils.customClickable
 
 @Composable
 fun SearchBar(
@@ -42,9 +43,7 @@ fun SearchBar(
         shape = RoundedCornerShape(25.dp),
         color = Color.White,
         modifier = modifier
-            .clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }) { onClick() },
+            .customClickable { onClick() },
         border = BorderStroke(1.2.dp, Grey)
     ) {
         ConstraintLayout(
@@ -107,7 +106,7 @@ fun SearchBar(
                     tint = Color.White,
                     modifier = Modifier
                         .padding(12.dp)
-                        .clickable {
+                        .customClickable {
                             onSearch()
                         }
 
