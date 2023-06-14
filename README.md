@@ -15,5 +15,4 @@ Built following MVVM design pattern guidelines and using the following component
 - [Coroutines](https://developer.android.com/kotlin/coroutines) - Design pattern for asynchronous code execution.
 - [Dagger Hilt](https://developer.android.com/training/dependency-injection/hilt) - Dependency injection library for Android.
 - [Android Architecture Components](https://developer.android.com/topic/architecture) - Collection of libraries that contain the lifecycle-aware components.
-- [Retrofit](https://square.github.io/retrofit/) - Android's official programming language.
-
+- [Retrofit](https://square.github.io/retrofit/) - A type-safe HTTP client for Android.
