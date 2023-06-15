@@ -30,7 +30,7 @@ class HomeViewModel @Inject constructor(
     val searchQuery = _searchQuery.asStateFlow()
 
     /**
-     * Filtering function or instant search results
+     * Filtering function for instant search results
      */
     private var _properties = MutableStateFlow(state.properties)
     val properties = searchQuery.combine(_properties) { query, properties ->
