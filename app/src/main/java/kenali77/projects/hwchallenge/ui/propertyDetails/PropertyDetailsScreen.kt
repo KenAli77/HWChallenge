@@ -69,6 +69,12 @@ fun PropertyDetailsScreen(
                             .fillMaxWidth()
                             .padding(15.dp)
                     )
+                    CheckInOutBox(checkIn = "14:00 - 23:00", checkOut = "11:00", modifier = Modifier.padding(horizontal = 12.dp))
+                    Divider(
+                        thickness = 1.dp, color = Grey.copy(0.3f), modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(15.dp)
+                    )
                     FacilitiesBox(
                         facilities = property.facilities[0].facilities,
                         modifier = Modifier
@@ -85,6 +91,7 @@ fun PropertyDetailsScreen(
                         long = property.longitude,
                         modifier = Modifier.padding(vertical = 10.dp)
                     )
+                    LocationData(modifier = Modifier.padding(10.dp), address1 = property.address1, address2 = property.address2)
                     Spacer(Modifier.height(70.dp))
 
                 }

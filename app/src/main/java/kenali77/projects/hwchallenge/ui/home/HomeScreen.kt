@@ -53,8 +53,11 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(), navHostController: Na
             }
 
             properties?.let {
-                if(it.isEmpty()){
-                    NoDataView(modifier=Modifier,text="No matching results found. Please try a different search term")
+                if (it.isEmpty()) {
+                    NoDataView(
+                        modifier = Modifier,
+                        text = "No matching results found. Please try a different search term"
+                    )
                 } else {
                     PropertiesListView(
                         properties = it,
@@ -66,17 +69,20 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(), navHostController: Na
                     )
 
                 }
-            } ?: NoDataView(modifier=Modifier,text="We couldn't find any data")
+            } ?: if (!state.loading) {
+                NoDataView(modifier = Modifier, text = "We couldn't find any data")
+            } else {
 
-            state.loading?.let {
-                if (it) {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        CircularProgressIndicator(color = Orange, strokeWidth = 2.dp, modifier = Modifier.size(50.dp))
-                    }
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    CircularProgressIndicator(
+                        color = Orange,
+                        strokeWidth = 2.dp,
+                        modifier = Modifier.size(50.dp)
+                    )
                 }
             }
         }

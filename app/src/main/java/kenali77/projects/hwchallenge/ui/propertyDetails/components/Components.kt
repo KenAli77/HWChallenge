@@ -15,9 +15,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.IosShare
 import androidx.compose.material.icons.outlined.LocationOn
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.ChevronRight
-import androidx.compose.material.icons.rounded.Star
+import androidx.compose.material.icons.outlined.Loupe
+import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,6 +42,7 @@ import kenali77.projects.hwchallenge.R
 import kenali77.projects.hwchallenge.data.local.database.PropertyModel
 import kenali77.projects.hwchallenge.domain.model.FacilityX
 import kenali77.projects.hwchallenge.domain.model.ImagesGallery
+import kenali77.projects.hwchallenge.ui.theme.Green
 import kenali77.projects.hwchallenge.ui.theme.Grey
 import kenali77.projects.hwchallenge.ui.theme.Orange
 import kenali77.projects.hwchallenge.ui.theme.Yellow
@@ -451,7 +451,9 @@ fun ChooseRoomSection(
     ) {
 
         Row(
-            modifier = Modifier.fillMaxWidth().padding(10.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -469,9 +471,73 @@ fun ChooseRoomSection(
                 shape = RoundedCornerShape(15.dp),
                 color = Orange,
             ) {
-                Text(text = "Choose Room", fontWeight = FontWeight.Bold, color = Color.White, modifier = Modifier.padding(12.dp))
+                Text(
+                    text = "Choose Room",
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    modifier = Modifier.padding(12.dp)
+                )
             }
 
+
+        }
+    }
+}
+
+@Composable
+fun LocationData(modifier: Modifier = Modifier, address1: String, address2: String) {
+    Column(modifier) {
+        Text(text = "Location", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+        Row(Modifier.fillMaxWidth(), Arrangement.spacedBy(3.dp), Alignment.CenterVertically) {
+            Icon(
+                imageVector = Icons.Outlined.LocationOn,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(20.dp)
+                    .alignByBaseline()
+            )
+            Text(
+                text = "$address1, $address2", fontSize = 15.sp,
+                modifier = Modifier.alignByBaseline(),
+                textAlign = TextAlign.Center,
+
+                )
+        }
+    }
+}
+
+@Composable
+fun CheckInOutBox(checkIn: String, checkOut: String, modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
+        Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = Icons.Rounded.Login,
+                contentDescription = null,
+                tint = Green,
+                modifier = Modifier.size(30.dp)
+            )
+            Column() {
+                Text(text = "Check in", fontWeight = FontWeight.Bold)
+                Text(text = checkIn)
+            }
+
+        }
+
+        Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = Icons.Rounded.Logout,
+                contentDescription = null,
+                tint = Color.Red,
+                modifier = Modifier.size(30.dp)
+            )
+            Column() {
+                Text(text = "Check out", fontWeight = FontWeight.Bold)
+                Text(text = "until $checkOut")
+            }
 
         }
     }

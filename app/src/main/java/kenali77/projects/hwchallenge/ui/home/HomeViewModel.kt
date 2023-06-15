@@ -150,7 +150,7 @@ class HomeViewModel @Inject constructor(
         val properties: List<Property>? = null,
         val searchQuery: String? = null,
         val error: String? = null,
-        val loading: Boolean? = false
+        val loading: Boolean = false
     )
 
 }
