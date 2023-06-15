@@ -26,8 +26,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(), navHostController: Na
     val state = viewModel.state
     val searchQuery by viewModel.searchQuery.collectAsState()
     val properties by viewModel.properties.collectAsState()
-    val isSearchOngoing by viewModel.isSearchOngoing.collectAsState()
-    var isHintVisible by mutableStateOf(true)
+    var isHintVisible by remember { mutableStateOf(true) }
 
 
     LaunchedEffect(key1 = searchQuery) {

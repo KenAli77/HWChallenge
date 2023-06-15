@@ -29,7 +29,7 @@ import kenali77.projects.hwchallenge.ui.theme.Orange
 import kenali77.projects.hwchallenge.ui.utils.customClickable
 
 /**
- *
+ * Shared UI components
  */
 
 @Composable

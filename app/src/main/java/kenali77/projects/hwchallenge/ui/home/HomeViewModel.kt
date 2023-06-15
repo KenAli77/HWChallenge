@@ -26,9 +26,9 @@ class HomeViewModel @Inject constructor(private val repo: MainRepositoryImpl,pri
     private var _searchQuery = MutableStateFlow<String>("")
     val searchQuery = _searchQuery.asStateFlow()
 
-    private var _isSearchOngoing = MutableStateFlow(false)
-    val isSearchOngoing = _isSearchOngoing.asStateFlow()
-
+    /**
+     * Filtering function or instant search results
+     */
     private var _properties = MutableStateFlow(state.properties)
     val properties = searchQuery.combine(_properties){ query,properties ->
         if(query.isBlank()){
@@ -69,7 +69,7 @@ class HomeViewModel @Inject constructor(private val repo: MainRepositoryImpl,pri
                             loading = false,
                         )
 
-                        _properties.value = it.properties
+//                        _properties.value = it.properties
 
                         addPropertiesToDb(it.properties)
                     }
@@ -85,6 +85,9 @@ class HomeViewModel @Inject constructor(private val repo: MainRepositoryImpl,pri
         }
     }
 
+    /**
+    This method takes in the properties fetched from the API and caches them locally
+     */
     private fun addPropertiesToDb(properties: List<Property>) {
         viewModelScope.launch {
             val propertiesList = ArrayList<PropertyModel>()
@@ -96,6 +99,10 @@ class HomeViewModel @Inject constructor(private val repo: MainRepositoryImpl,pri
         }
     }
 
+    /**
+     * This method generates a PropertyModel object from a Property, in order to
+     * be ready for storage in the local DB
+     */
     fun populatePropertyModelData(property: Property): PropertyModel {
         return PropertyModel(
             address1 = property.address1,
