@@ -7,7 +7,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -69,9 +68,9 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(), navHostController: Na
                     )
 
                 }
-            } ?: if (!state.loading) {
+            } ?: if (!state.loading && !state.error.isNullOrBlank()) {
                 NoDataView(modifier = Modifier, text = "We couldn't find any data")
-            } else {
+            } else if(state.loading) {
 
                 Column(
                     modifier = Modifier.fillMaxSize(),
@@ -84,7 +83,11 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(), navHostController: Na
                         modifier = Modifier.size(50.dp)
                     )
                 }
+            } else if (!state.error.isNullOrBlank()) {
+                NoDataView(text = state.error)
             }
+
+
         }
     }
 }
