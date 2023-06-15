@@ -12,10 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import kenali77.projects.hwchallenge.ui.components.SearchBar
-import kenali77.projects.hwchallenge.ui.home.components.NoMatchingResults
-import kenali77.projects.hwchallenge.ui.home.components.PropertiesListView
-import kenali77.projects.hwchallenge.ui.home.components.Toolbar
-import kenali77.projects.hwchallenge.ui.home.components.isScrolled
+import kenali77.projects.hwchallenge.ui.home.components.*
 import kenali77.projects.hwchallenge.ui.navigation.Screens
 import kenali77.projects.hwchallenge.ui.theme.LightPurple
 import kenali77.projects.hwchallenge.ui.theme.Orange
@@ -57,7 +54,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(), navHostController: Na
 
             properties?.let {
                 if(it.isEmpty()){
-                    NoMatchingResults(modifier=Modifier)
+                    NoDataView(modifier=Modifier,text="No matching results found. Please try a different search term")
                 } else {
                     PropertiesListView(
                         properties = it,
@@ -69,8 +66,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(), navHostController: Na
                     )
 
                 }
-
-            }
+            } ?: NoDataView(modifier=Modifier,text="We couldn't find any data")
 
             state.loading?.let {
                 if (it) {

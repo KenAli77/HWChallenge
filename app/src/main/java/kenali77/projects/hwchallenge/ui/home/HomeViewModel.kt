@@ -17,7 +17,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val repo: MainRepositoryImpl,private val db:PropertiesDatabase) : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val repo: MainRepositoryImpl,
+    private val db: PropertiesDatabase
+) : ViewModel() {
 
     var state by mutableStateOf(HomeState())
         private set
@@ -30,21 +33,28 @@ class HomeViewModel @Inject constructor(private val repo: MainRepositoryImpl,pri
      * Filtering function or instant search results
      */
     private var _properties = MutableStateFlow(state.properties)
-    val properties = searchQuery.combine(_properties){ query,properties ->
-        if(query.isBlank()){
-         return@combine  properties
+    val properties = searchQuery.combine(_properties) { query, properties ->
+        state = state.copy(
+            loading = true
+        )
+        if (query.isBlank()) {
+            state = state.copy(loading = false)
+            return@combine properties
         } else {
 
-          return@combine  properties?.filter {
+            state = state.copy(loading = false)
+            return@combine properties?.filter {
                 val combinations = listOf(it.name)
-                it.doesMatchSearchQuery(query,combinations)
+                it.doesMatchSearchQuery(query, combinations)
             }
         }
 
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000),_properties.value)
-    fun onSearchQueryChange(query:String){
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _properties.value)
+
+    fun onSearchQueryChange(query: String) {
         _searchQuery.value = query
     }
+
     init {
         getProperties()
     }
@@ -69,7 +79,7 @@ class HomeViewModel @Inject constructor(private val repo: MainRepositoryImpl,pri
                             loading = false,
                         )
 
-//                        _properties.value = it.properties
+                        _properties.value = it.properties
 
                         addPropertiesToDb(it.properties)
                     }
@@ -91,8 +101,8 @@ class HomeViewModel @Inject constructor(private val repo: MainRepositoryImpl,pri
     private fun addPropertiesToDb(properties: List<Property>) {
         viewModelScope.launch {
             val propertiesList = ArrayList<PropertyModel>()
-            for(property in properties){
-                val prop:PropertyModel = populatePropertyModelData(property)
+            for (property in properties) {
+                val prop: PropertyModel = populatePropertyModelData(property)
                 propertiesList.add(prop)
             }
             db.propertiesDao().insertAll(*propertiesList.toTypedArray())
@@ -138,7 +148,7 @@ class HomeViewModel @Inject constructor(private val repo: MainRepositoryImpl,pri
 
     data class HomeState(
         val properties: List<Property>? = null,
-        val searchQuery:String? = null,
+        val searchQuery: String? = null,
         val error: String? = null,
         val loading: Boolean? = false
     )
